@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 from serpentSiteZero import App
 from GameOver import GameOver
+from Regles import Regles
 BLACK = (0,0,0)
 
 class Menu():
@@ -24,8 +25,8 @@ class Menu():
         pygame.font.init()
         pygame.font.get_fonts()
         arial_fonts = pygame.font.match_font('Arial')
-        instructions_quitter = pygame.font.SysFont('Arial',20,20).render("Quitter la partie :[Echap] ", True, (255, 255, 255))
-        lancer = pygame.font.SysFont('Arial',20,20).render("Demarrer la partie :[ESPACE] ou [ENTREE] ", True, (255, 255, 255))
+        instructions_quitter = pygame.font.SysFont('Arial',20,20).render("Quitter: [Echap] ", True, (255, 255, 255))
+        lancer = pygame.font.SysFont('Arial',20,20).render("Demarrer: [ESPACE] ou [ENTREE] ", True, (255, 255, 255))
         demarrer = pygame.font.SysFont('Arial',20,20).render("Demarrer", True, (255, 255, 255))
         difficulte = pygame.font.SysFont('Arial',20,20).render("Difficulté: Normale", True, (204, 204,204, 255))
         
@@ -59,10 +60,13 @@ class Menu():
                 # Verifie les evenments du clavier
                 if event.type == KEYDOWN:
                     # Si on appuie sur Echap, quitter le jeu
-                    if event.key == pygame.K_RETURN:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         ecran.fill(BLACK)
                         theApp = App()
                         theApp.on_execute()
+                        
+                    if event.key == pygame.K_r:
+                        ecran_des_regles = Regles([800,600])    
                     if event.key == pygame.K_ESCAPE:
                         continuer = False
                     if event.key == pygame.K_e:
@@ -79,10 +83,9 @@ class Menu():
             
             #Afficher les textes
             ecran.blit(image_menu, (250,160))
-            ecran.blit(instructions_quitter,(100 - instructions_quitter.get_width() // 3, 20 - instructions_quitter.get_height() // 3))
-            ecran.blit(lancer,(166 - lancer.get_width() // 3, 60 - lancer.get_height() // 3))
+            ecran.blit(lancer,(166 - lancer.get_width() // 3, 20 - lancer.get_height() // 3))
             ecran.blit(difficulte,(300 - demarrer.get_width() // 2, 480 - demarrer.get_height() // 2))
-                  
+            ecran.blit(instructions_quitter,(100 - instructions_quitter.get_width() // 3, 60 - instructions_quitter.get_height() // 3))
             # Met à jour la fenetre pour pouvoir afficher les changements
             pygame.display.flip()
             

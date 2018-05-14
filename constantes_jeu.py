@@ -1,5 +1,6 @@
 position = [300,300]
 taille_fenetre = [600,600]
+size_window = [600,600]
 height = 10 
 width = 10
 speed = 1

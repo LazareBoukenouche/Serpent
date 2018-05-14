@@ -35,8 +35,8 @@ class Player:
            self.y.append(-100)
  
        # initial positions, no collision.
-       self.x[1] = 2*44
-       self.x[2] = 2*44
+       self.x[1] = 3*44
+       self.x[2] = 3*44
  
     def update(self):
  
@@ -102,6 +102,7 @@ class App:
     player = 0
     apple = 0
     pause = False
+    compteur = 0
  
     def __init__(self):
         self._running = True
@@ -134,9 +135,11 @@ class App:
         for i in range(0,self.player.length):
             if self.game.isCollision(self.apple.x,self.apple.y,self.player.x[i], self.player.y[i],44):
                 son.play()
+                self.compteur = self.compteur + 1
                 self.apple.x = randint(2,9) * 44
                 self.apple.y = randint(2,9) * 44
                 self.player.length = self.player.length + 1
+                score = pygame.font.SysFont('Arial',15,15).render("score:" + str(self.compteur), True, (255, 255, 255))
  
  
         # does snake collide with itself?
@@ -151,13 +154,7 @@ class App:
         pass
         
         # Check if the snake collide with the walls
-        if self.player.x[0] < 0:
-            game_over = GameOver([800,600])
-        if self.player.y[0] < 0:
-            game_over = GameOver([800,600])
-        if self.player.x[0] > self.windowWidth:
-            game_over = GameOver([800,600])
-        if self.player.y[0] > self.windowHeight:
+        if self.player.x[0] < 0 or self.player.y[0] < 0 or self.player.x[0] > self.windowWidth - 8 or self.player.y[0] > self.windowHeight:
             game_over = GameOver([800,600])
             
  
@@ -178,13 +175,13 @@ class App:
             arial_fonts = pygame.font.match_font('Arial')
             instructions_quitter = pygame.font.SysFont('Arial',15,15).render("Quitter: [Echap] ", True, (255, 255, 255))
             lancer = pygame.font.SysFont('Arial',15,15).render("Demarrer: [ESPACE] ou [ENTREE] ", True, (255, 255, 255))
-            score = pygame.font.SysFont('Arial',15,15).render("score = 0", True, (255, 255, 255))
+            score = pygame.font.SysFont('Arial',15,15).render("score:"+ str(self.compteur), True, (255, 255, 255))
             demarrer = pygame.font.SysFont('Arial',15,15).render("Demarrer", True, (255, 255, 255))
             difficulte = pygame.font.SysFont('Arial',15,15).render("Difficulté: Normale", True, (204, 204,204, 255))
-            self._display_surf.blit(instructions_quitter,(100 - instructions_quitter.get_width() // 3, 20 - instructions_quitter.get_height() // 3))
-            self._display_surf.blit(lancer,(166 - lancer.get_width() // 3, 60 - lancer.get_height() // 3))
-            self._display_surf.blit(score,(100 - score.get_width() // 3, 100 - score.get_height() // 3))
-            pygame.draw.rect(self._display_surf,[0,255,255],((0,0),(780,590)),1)
+            self._display_surf.blit(instructions_quitter,(350 - instructions_quitter.get_width() // 3, 20 - instructions_quitter.get_height() // 3))
+            self._display_surf.blit(lancer,(100 - lancer.get_width() // 3, 20 - lancer.get_height() // 3))
+            self._display_surf.blit(score,(500 - score.get_width() // 3, 20 - score.get_height() // 3))
+            pygame.draw.rect(self._display_surf,[0,255,255],((0,0),(790,580)),1)
             pygame.display.flip()
             #pygame.event.pump()
             for event in pygame.event.get():
@@ -213,7 +210,7 @@ class App:
             self.on_loop()
             self.on_render()
  
-            time.sleep (20.0 / 1000.0);
+            time.sleep (100.0 / 1000.0);
         self.on_cleanup()
  
 if __name__ == "__main__" :
